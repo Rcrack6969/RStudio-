@@ -1,0 +1,74 @@
+#DESCARGAR EXCEL
+
+install.packages("readxl")
+library(readxl)
+setwd("C:/Users/P500904/Documents")
+mis_datos <- read_excel("Acciones.xlsx")
+df_sin_nan <- na.omit(mis_datos)
+
+install.packages("ggplot2")
+library(ggplot2)
+head(df_sin_nan, 10)
+
+library(ggplot2)
+
+
+ggplot(df_sin_nan, aes(x = Fecha)) +
+  geom_line(aes(y = `SPBLPGPT Index`), color = "blue") +
+  geom_line(aes(y = `SPBLPSPP Index`), color = "red")
+
+
+#CREANDO INDICES 100
+
+# Crear el índice base 100 para la variable SPBLPGPT Index
+df_sin_nan$`SPBLPGPT Index 100` <- df_sin_nan$`SPBLPGPT Index` / df_sin_nan$`SPBLPGPT Index`[1] * 100
+
+# Crear el índice base 100 para la variable OtraVariable
+df_sin_nan$`SPBLPSPP Index 100` <- df_sin_nan$`SPBLPSPP Index` / df_sin_nan$`SPBLPSPP Index`[1] * 100
+
+l <- ggplot(df_sin_nan, aes(x = Fecha)) +
+  geom_line(aes(y = `SPBLPGPT Index 100`), color = "blue") +
+  geom_line(aes(y = `SPBLPSPP Index 100`), color = "red")
+print(l)
+
+sc <- ggplot(df_sin_nan, aes(x = `SPBLPGPT Index 100`, y = `SPBLPSPP Index 100`, color = "blue")) +
+  geom_point() + geom_smooth(method = "lm", se = FALSE, color = "red")
+
+print(sc)
+
+#Editar datos de un DF:
+
+# Supongamos que tienes el siguiente DataFrame:
+df <- data.frame(
+  Var1 = c(1, 2, 3, 4, 5),
+  Var2 = c('a', 'b', 'c', 'd', 'e')
+)
+
+# Para cambiar el valor en la segunda fila de Var1 a 10:
+df[2, "Var1"] <- 10
+
+# Ver el DataFrame después de la modificación
+print(df)
+
+
+# Supongamos que tienes el siguiente DataFrame:
+df <- data.frame(
+  Var1 = c(1, 2, 3, 4, 5),
+  Var2 = c(10, 20, 30, 40, 50)
+)
+
+# Para reemplazar todos los valores de Var1 mayores a 3 por 0:
+df$Var1[df$Var1 > 3] <- 0
+
+# Ver el DataFrame después de la modificación
+print(df)
+
+# Para reemplazar todos los valores de Var1 mayores a 3 por 0:
+df_filtrado <- df[df$Var1 <= 3, ]
+
+
+
+
+#Rdocumentation
+#Sthda
+
